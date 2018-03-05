@@ -7,7 +7,7 @@
 // of different sizes. How many of them have the same
 // difference as the current result? If less than 5% of
 // the group have the current difference, the difference
-// seems to be significant.
+// seems to be statistical significant.
 package main
 
 import (
