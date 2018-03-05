@@ -7,7 +7,7 @@ import (
 	"math/rand"
 )
 
-const treshold = 0.5
+const treshold = 0.05
 
 func main() {
 	rand.Seed(42)
