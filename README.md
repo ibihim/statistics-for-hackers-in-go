@@ -25,4 +25,13 @@ Motivation: The data estimates its own distribution - we draw random samples fro
 - As always, be careful about selection biases & non-independent data!
 
 
-## Cross validatoin
+## Cross validation
+
+Which is the better model to fit: Split data set in 2. Create model on first, test with 2nd. Go to way to avoid overfitting.
+
+### Notes
+
+ - This was "2-fold" cross-validation; other CV schemes exist & may perform better for your data (see e.g. scikit-learn docs)
+ - Cross-validation is the go-to method for model evaluation in machine learning, as statistics of the models are often not known in the classical sense.
+ - Again: caveats about selection bias and independence in data.
+

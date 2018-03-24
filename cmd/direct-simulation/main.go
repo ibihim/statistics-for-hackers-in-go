@@ -39,11 +39,11 @@ func isItAFairCoin(minHeads, iterations, amount int) bool {
 	return (float64(counter) / float64(iterations)) > treshold
 }
 
-func sumRndInt(rnd, times int) int {
+func sumRndInt(pos, times int) int {
 	sum := 0
 
 	for i := 0; i < times; i++ {
-		sum += rand.Intn(rnd)
+		sum += rand.Intn(pos)
 	}
 
 	return sum

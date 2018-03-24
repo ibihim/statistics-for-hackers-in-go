@@ -12,16 +12,19 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
+
+	"github.com/ibihim/statistics-for-hackers-in-go/pkg/statutils"
+
+	"gonum.org/v1/gonum/stat"
 )
 
 const treshold = 0.05
 
 func main() {
 	// analysis of the following results
-	resultA := []int{84, 72, 57, 46, 63, 76, 99, 91}
-	resultB := []int{81, 69, 74, 61, 56, 87, 69, 65, 66, 44, 62, 69}
-	discussedDiff := avg(resultA) - avg(resultB)
+	resultA := []float64{84, 72, 57, 46, 63, 76, 99, 91}
+	resultB := []float64{81, 69, 74, 61, 56, 87, 69, 65, 66, 44, 62, 69}
+	discussedDiff := stat.Mean(resultA, nil) - stat.Mean(resultB, nil)
 	fmt.Printf("diff of avg A and avg B: %v\n", discussedDiff)
 
 	// shuffle setup
@@ -35,11 +38,11 @@ func main() {
 	fmt.Printf("is the discrepancy statistically significant: %v\n", isValid)
 }
 
-func isGroupABetter(iterations, delimiter int, match float64, dataSet []int) bool {
+func isGroupABetter(iterations, delimiter int, match float64, dataSet []float64) bool {
 	// shuffle and and count diffs of avgs that are equal or higher
 	counter := 1 // starts at one as discussed diff is a match
 	for i := 1; i < iterations; i++ {
-		shuffle(dataSet)
+		statutils.Shuffle(dataSet)
 		if diff := splitAndCalcDiffAvg(dataSet, delimiter); diff >= match {
 			counter++
 		}
@@ -50,25 +53,9 @@ func isGroupABetter(iterations, delimiter int, match float64, dataSet []int) boo
 	return p < treshold
 }
 
-func shuffle(completeSet []int) {
-	rand.Shuffle(len(completeSet), func(i, j int) {
-		completeSet[i], completeSet[j] = completeSet[j], completeSet[i]
-	})
-}
-
-func splitAndCalcDiffAvg(completeSet []int, delimiter int) float64 {
-	avgA := avg(completeSet[:delimiter])
-	avgB := avg(completeSet[delimiter:])
+func splitAndCalcDiffAvg(completeSet []float64, delimiter int) float64 {
+	avgA := stat.Mean(completeSet[:delimiter], nil)
+	avgB := stat.Mean(completeSet[delimiter:], nil)
 
 	return avgA - avgB
-}
-
-func avg(n []int) float64 {
-	sum := 0
-
-	for _, val := range n {
-		sum += val
-	}
-
-	return float64(sum) / float64(len(n))
 }
